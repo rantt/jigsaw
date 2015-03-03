@@ -57,6 +57,7 @@ gulp.task('clean', function(cb) {
 gulp.task('copy',['clean'], function(){
   gulp.src(['assets/fonts/*', 'assets/maps/*', 'assets/audio/*', 'js/lib/phaser.*'], {cwd: './src', base: './src'})
     .pipe(gulp.dest('./dist/'));
+  gulp.src('screenshots/*').pipe(gulp.dest('./dist/screenshots/'));
 });
 
 // Concatenate & Minify JS/CSS/HTML
