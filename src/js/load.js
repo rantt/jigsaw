@@ -47,6 +47,9 @@ Game.Load.prototype = {
   	var preloading = this.game.add.sprite(Game.w/2-64, Game.h/2+50, 'loading');
   	this.game.load.setPreloadSprite(preloading);
 
+    //Load button for twitter
+    this.game.load.image('twitter','assets/images/twitter.png');
+
     // Music Track
     // this.game.load.audio('music','soundtrack.mp3');
 
