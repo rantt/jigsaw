@@ -9,8 +9,8 @@ var gulp = require('gulp'),
     usemin = require('gulp-usemin'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    minifyCss = require('gulp-minify-css'),
-    minifyHtml = require('gulp-minify-html'),
+    cssnano = require('gulp-cssnano'),
+    htmlmin = require('gulp-htmlmin'),
     rev = require('gulp-rev'),
     rsync = require('gulp-rsync'),
     browserSync = require('browser-sync');
@@ -66,8 +66,8 @@ gulp.task('copy',['clean'], function(){
 gulp.task('build',['copy', 'imagemin'], function () {
   return gulp.src('./src/index.html')
     .pipe(usemin({
-      css: [minifyCss(), 'concat'],
-      html: [minifyHtml({empty: true})],
+      css: [cssnano()],
+      html: [htmlmin({collapseWhitespace: true})],
       js: [uglify(), rev()]
     }))
     .pipe(gulp.dest('dist/'));
