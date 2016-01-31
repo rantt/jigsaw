@@ -57,7 +57,7 @@ gulp.task('clean', function(cb) {
 
 //Copy Assets
 gulp.task('copy',['clean'], function(){
-  gulp.src(['assets/fonts/*', 'assets/maps/*', 'assets/audio/*', 'js/lib/phaser.*'], {cwd: './src', base: './src'})
+  gulp.src(['assets/atlas/*','assets/fonts/*', 'assets/maps/*', 'assets/audio/*', 'js/lib/phaser.*'], {cwd: './src', base: './src'})
     .pipe(gulp.dest('./dist/'));
   gulp.src('screenshots/*').pipe(gulp.dest('./dist/screenshots/'));
 });
