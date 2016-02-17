@@ -1,6 +1,6 @@
 var Game = {
-  w: 800,
-  h: 600
+  w: 1024,
+  h: 768 
 };
 
 // var w = 800;
@@ -49,12 +49,14 @@ Game.Load.prototype = {
 
     //Load button for twitter
     this.game.load.image('twitter','assets/images/twitter.png');
+    this.game.load.image('cat', 'assets/images/cat.png');
 
     // Music Track
     // this.game.load.audio('music','soundtrack.mp3');
 
   },
   create: function() {
-    this.game.state.start('Menu');
+    // this.game.state.start('Menu');
+    this.game.state.start('Play');
   }
 };

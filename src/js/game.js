@@ -1,6 +1,7 @@
 /*global Game*/
 
-var game = new Phaser.Game(Game.w, Game.h, Phaser.AUTO, 'game');
+// var game = new Phaser.Game(Game.w, Game.h, Phaser.AUTO, 'game');
+var game = new Phaser.Game(Game.w, Game.h, Phaser.CANVAS, 'game');
 
 
 game.state.add('Boot', Game.Boot);
