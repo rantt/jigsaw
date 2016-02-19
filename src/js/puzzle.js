@@ -1,3 +1,7 @@
+function rand (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 var Puzzle = function(game, pic, square) {
   this.game = game;
   this.pic = pic;
@@ -23,15 +27,51 @@ var Puzzle = function(game, pic, square) {
     //Setup Background Game Board
     for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
+        // this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
         this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
 			}
 		}
 
-    //Draw Pieces except the top-left corner
+    // Offset for puzzle sizes
+    // 0 - flat
+    // -1 - valley 
+    // 1 - hill
+    var choice = [-1, 1]; 
+
     for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
-        var piece = new PuzzlePiece(this.game, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic);
+
+        var sides = {ls: 0, bs: 0, rs: 0, ts: 0};
+
+        //above
+        if (this.piece_list[j+'_'+(i-1)] !== undefined) {
+          sides.ts = this.piece_list[j+'_'+(i-1)].bottom_side * -1;
+        }else {
+          sides.ts = choice[rand(0,1)]; 
+        }
+
+        //left
+        if (this.piece_list[(j-1)+'_'+i] !== undefined) {
+          sides.ls = this.piece_list[(j-1)+'_'+i].right_side * -1;
+        }else {
+          sides.ls = choice[rand(0,1)]; 
+        }
+
+        //bottom
+        sides.bs = choice[rand(0,1)];
+
+        //right
+        sides.rs = choice[rand(0,1)];
+
+        if (j === (this.square -1)) { sides.rs = 0; }
+        if (i === 0) { sides.ts = 0; }
+        if (i === (this.square - 1)) { sides.bs = 0; }
+        if (j === 0) { sides.ls = 0; }
+
+        var piece = new PuzzlePiece(this.game, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
         this.pieces.push(piece);
+        this.piece_list[j+'_'+i] = piece;
+
       }
     }
 };

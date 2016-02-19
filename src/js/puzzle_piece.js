@@ -1,58 +1,167 @@
-function rand (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-var PuzzlePiece = function(game, x, y, j, i, width, height, pic) {
+var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
 
   this.game = game;
   this.initialX = x;
   this.initialY = y;
 
-  // Offset for puzzle sizes
-  // 0 - flat
-  // -1 - valley 
-  // 1 - hill
-  var choice = [-1, 1]; 
-  this.top_side=this.bottom_side=this.left_side=this.right_side = 0;
+
+  this.left_side = sides.ls;
+  this.bottom_side = sides.bs;
+  this.right_side = sides.rs;
+  this.top_side = sides.ts;
 
 
-  this.top_side = choice[rand(0,1)];
-  this.bottom_side = choice[rand(0,1)];
-  this.right_side = choice[rand(0,1)];
-  this.left_side = choice[rand(0,1)];
-
-  var height_offset = Math.floor(height*0.1);
-  var width_offset = Math.floor(width*0.1);
-
-  height += this.top_side*height_offset;
-  height += this.bottom_side*height_offset;
-  width += this.left_side*width_offset;
-  width += this.right_side*width_offset;
   this.i = i; //i height position
   this.j = j; //j width position
 
 
+  var bmdwidth = Math.floor(width*1.30);
+  var bmdheight = Math.floor(height*1.30);
 
-  var img = this.game.make.bitmapData(width, height);
-  area = new Phaser.Rectangle(j*width, i*height, width, height);
-  img.copyRect(pic, area, 0, 0);
+  var tl = {x: Math.floor(width*0.15), y: Math.floor(height*0.15)}; 
+  var tr = {x: (width+Math.floor(width*0.15)), y: (Math.floor(height*0.15))};
+  var bl = {x: Math.floor(width*0.15), y: (height+Math.floor(height*0.15))};
+  var br = {x: (width+Math.floor(width*0.15)), y: (height+Math.floor(height*0.15))};
+
+  
+  this.piecebmd = this.game.add.bitmapData(bmdwidth,bmdheight);
+  this.piecebmd.ctx.clearRect(0, 0, bmdwidth, bmdheight);
+  this.piecebmd.ctx.strokeStyle = '#FFF';
+  this.piecebmd.ctx.fillStyle = '#dcdcdc';
+  this.piecebmd.ctx.lineWidth = 2;
+  this.piecebmd.ctx.fill();
+  this.piecebmd.ctx.beginPath();
+
+  if (this.left_side === 0) {
+    //left side flat
+    this.piecebmd.ctx.moveTo(tl.x,tl.y);
+    this.piecebmd.ctx.lineTo(bl.x,bl.y);
+  }else if (this.left_side === -1){
+    //left side cave
+    this.piecebmd.ctx.moveTo(tl.x,tl.y);
+    this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.1),Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.15),Math.floor(tl.y+height/3+height/6));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.10),Math.floor(tl.y+height/3+2*height/6));
+    this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3+2*height/6));
+    this.piecebmd.ctx.lineTo(bl.x,bl.y);
+  }else if (this.left_side === 1) {
+    //left side mountain
+    this.piecebmd.ctx.moveTo(tl.x,tl.y);
+    this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.1),Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.15),Math.floor(tl.y+height/3+height/6));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.10),Math.floor(tl.y+height/3+2*height/6));
+    this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3+2*height/6));
+    this.piecebmd.ctx.lineTo(bl.x,bl.y);
+  }
+
+  if (this.bottom_side === 0) {
+    //bottom side flat
+    this.piecebmd.ctx.lineTo(br.x, br.y); 
+  }else if (this.bottom_side === -1) {
+    //bottom sidecave 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), bl.y); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+width/6), Math.floor(bl.y-width*0.15)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), bl.y); 
+    this.piecebmd.ctx.lineTo(br.x, bl.y); 
+  }else if (this.bottom_side === 1) {
+    //bottom side mountain
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), bl.y); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+width/6), Math.floor(bl.y+width*0.15)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), bl.y); 
+    this.piecebmd.ctx.lineTo(br.x, br.y); 
+
+  }
+
+  if (this.right_side === 0) {
+    //right side flat
+    this.piecebmd.ctx.lineTo(tr.x, tr.y);
+  }else if (this.right_side === -1) {
+    //right side cave
+    this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.1),Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.15),Math.floor(br.y-height/3-height/6));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.10),Math.floor(br.y-height/3-2*height/6));
+    this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3-2*height/6));
+    this.piecebmd.ctx.lineTo(tr.x,tr.y);
+  }else if (this.right_side === 1) {
+    //right side cave
+    this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.1),Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.15),Math.floor(br.y-height/3-height/6));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.10),Math.floor(br.y-height/3-2*height/6));
+    this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3-2*height/6));
+    this.piecebmd.ctx.lineTo(tr.x,tr.y);
+  }
+
+  if (this.top_side === 0) {
+    //top side flat
+    this.piecebmd.ctx.lineTo(tl.x, tl.y);
+  }else if (this.top_side === -1) {
+    //top side cave
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), tr.y); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-width/6), Math.floor(tr.y+width*0.15)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), tr.y); 
+    this.piecebmd.ctx.lineTo(tl.x, tl.y); 
+  }else if (this.top_side === 1) {
+    //top side mountain
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), tr.y); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-width/6), Math.floor(tr.y-width*0.15)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), tr.y); 
+    this.piecebmd.ctx.lineTo(tl.x, tl.y); 
+  }
+    
+  this.piecebmd.ctx.fill();
+
+ 
+  var src_image = this.game.add.image(Game.w/2, Game.h/2, pic);
+  src_image.anchor.setTo(0.5);
+  src_image.visible = false;
+
+  var w = src_image.width;
+  var h = src_image.height;
+
+  var offsetX = width*0.15;
+  var offsetY = height*0.15;
+
+  if (this.top_side === 1) { offsetY = 0; }
+  if (this.left_side === 1) { offsetX = 0; }
+
+  var img = this.game.make.bitmapData(w, h);
+  area = new Phaser.Rectangle(j*width-(Math.abs(offsetX- width*0.15)), i*height-(Math.abs(offsetY - height*0.15)), w, h);
+  img.copyRect(pic, area, offsetX,offsetY);
   img.update();
   
-  var mask = this.game.make.bitmapData(width, height);
-  mask.copyRect(this.piecebmd, area, width, height);
+  var mask = this.game.make.bitmapData(bmdwidth, bmdheight);
+  mask.copyRect(this.piecebmd, area, bmdwidth, bmdheight);
 
-  var bmd = this.game.make.bitmapData(width, height);
+  var bmd = this.game.make.bitmapData(bmdwidth, bmdheight);
   bmd.alphaMask(img, this.piecebmd);
-  var b = game.add.sprite(x, y, bmd);
-  
-  // var b = this.game.add.sprite(x, y, img);
+
+    this.offsetX = (Game.w - width)/2; 
+    this.offsetY = (Game.h - height)/2; 
+
+
+  var b = game.add.sprite(x+100, y+100, bmd); //100px temp offset
+  b.anchor.setTo(0.5);
+
   b.inputEnabled = true;
   b.input.enableDrag(true);
-
-  return b;
 
 };
 
 PuzzlePiece.prototype = Object.create(Phaser.Sprite.prototype); 
+PuzzlePiece.prototype.drawPiece = function() {
+
+};
 PuzzlePiece.prototype.constructor = PuzzlePiece;
 
