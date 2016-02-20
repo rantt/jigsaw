@@ -1,0 +1,4 @@
+<TextureAtlas imagePath="startbtn.png">
+	<SubTexture name="click_to_start1.png" x="0" y="34" width="388" height="32"/>
+	<SubTexture name="click_to_start2.png" x="0" y="0" width="388" height="32"/>
+</TextureAtlas>

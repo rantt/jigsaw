@@ -31,26 +31,37 @@ Game.Play.prototype = {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
 
     this.game.stage.backgroundColor = '#213D5E';
+    this.game_won = false;
 
-    this.puzzle = new Puzzle(this.game, 'cat', 3);  
+		// this.level = 1;
+
+    if (difficulty === 'easy') {
+      this.square = 3;
+    }else if (difficulty === 'normal') {
+      this.square = 5;
+    }else if (difficulty === 'hard') {
+      this.square = 10;
+    }
+
+    // this.puzzles = ['cat','prehistory','skyscrapers','boxing'];
+    // this.puzzles = ['horse','cat','apple','flower',];
+
+    this.puzzle = new Puzzle(this.game, level.toString(), this.square);  
 		this.puzzle.scatter();
 
 		this.preview_button = this.game.add.button(Game.w-200,0,this.makeBox(200,50), this.puzzle.preview_toggle,this.puzzle);
 		this.preview_button.tint = 0xff00ff;
 		this.game.add.bitmapText(Game.w-170,10,'minecraftia','Preview',24);
 
+		this.menu_button = this.game.add.button(0,0,this.makeBox(200,50), this.gotoMenu,this);
+		this.menu_button.tint = 0xff00ff;
+		this.game.add.bitmapText(50,10,'minecraftia','Menu',24);
 
     // // Music
     // this.music = this.game.add.sound('music');
     // this.music.volume = 0.5;
     // this.music.play('',0,1,true);
 
-    //Setup WASD and extra keys
-    wKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
-    aKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
-    sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-    dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
-    // muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
 
 
     //Create Twitter button as invisible, show during win condition to post highscore
@@ -58,15 +69,36 @@ Game.Play.prototype = {
     this.twitterButton.anchor.set(0.5);
     this.twitterButton.visible = false;
   },
-    makeBox: function(x,y) {
-      var bmd = this.game.add.bitmapData(x, y);
-      bmd.ctx.beginPath();
-      bmd.ctx.rect(0, 0, x, y);
-      bmd.ctx.fillStyle = '#fff';
-      bmd.ctx.fill();
-      return bmd;
-    },
+  gotoMenu: function() {
+    this.game.state.start('Menu');
+  },
+  makeBox: function(x,y) {
+    var bmd = this.game.add.bitmapData(x, y);
+    bmd.ctx.beginPath();
+    bmd.ctx.rect(0, 0, x, y);
+    bmd.ctx.fillStyle = '#fff';
+    bmd.ctx.fill();
+    return bmd;
+  },
   update: function() {
+
+		if (this.puzzle.won === true && this.game_won === false) {
+			this.puzzle.destroy();
+      console.log(level);
+      level = parseInt(level) + 1;
+			// level += 1;
+			if (level < 10) {
+        this.puzzle = new Puzzle(this.game, level.toString(), this.square);
+				this.puzzle.scatter();
+			}else {
+        this.game_won = true;
+        level = 1;
+      }
+		}else {
+      
+      // this.game.state.start('Menu');
+    }
+		
 
     // // Toggle Music
     // muteKey.onDown.add(this.toggleMute, this);

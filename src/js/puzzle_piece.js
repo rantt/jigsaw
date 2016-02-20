@@ -38,7 +38,7 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
     //left side cave
     this.piecebmd.ctx.moveTo(tl.x,tl.y);
     this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3));
-    this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.1),Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.10),Math.floor(tl.y+height/3));
     this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.15),Math.floor(tl.y+height/3+height/6));
     this.piecebmd.ctx.lineTo(Math.floor(tl.x+width*0.10),Math.floor(tl.y+height/3+2*height/6));
     this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3+2*height/6));
@@ -47,7 +47,7 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
     //left side mountain
     this.piecebmd.ctx.moveTo(tl.x,tl.y);
     this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3));
-    this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.1),Math.floor(tl.y+height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.10),Math.floor(tl.y+height/3));
     this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.15),Math.floor(tl.y+height/3+height/6));
     this.piecebmd.ctx.lineTo(Math.floor(tl.x-width*0.10),Math.floor(tl.y+height/3+2*height/6));
     this.piecebmd.ctx.lineTo(tl.x,Math.floor(tl.y+height/3+2*height/6));
@@ -60,17 +60,17 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   }else if (this.bottom_side === -1) {
     //bottom sidecave 
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), bl.y); 
-    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y-width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+width/6), Math.floor(bl.y-width*0.15)); 
-    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y-width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), bl.y); 
     this.piecebmd.ctx.lineTo(br.x, bl.y); 
   }else if (this.bottom_side === 1) {
     //bottom side mountain
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), bl.y); 
-    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3), Math.floor(bl.y+width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+width/6), Math.floor(bl.y+width*0.15)); 
-    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), Math.floor(bl.y+width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(bl.x+width/3+2*width/6), bl.y); 
     this.piecebmd.ctx.lineTo(br.x, br.y); 
 
@@ -82,7 +82,7 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   }else if (this.right_side === -1) {
     //right side cave
     this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3));
-    this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.1),Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.10),Math.floor(br.y-height/3));
     this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.15),Math.floor(br.y-height/3-height/6));
     this.piecebmd.ctx.lineTo(Math.floor(br.x-width*0.10),Math.floor(br.y-height/3-2*height/6));
     this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3-2*height/6));
@@ -90,7 +90,7 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   }else if (this.right_side === 1) {
     //right side cave
     this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3));
-    this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.1),Math.floor(br.y-height/3));
+    this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.10),Math.floor(br.y-height/3));
     this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.15),Math.floor(br.y-height/3-height/6));
     this.piecebmd.ctx.lineTo(Math.floor(br.x+width*0.10),Math.floor(br.y-height/3-2*height/6));
     this.piecebmd.ctx.lineTo(br.x,Math.floor(br.y-height/3-2*height/6));
@@ -103,17 +103,17 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   }else if (this.top_side === -1) {
     //top side cave
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), tr.y); 
-    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y+width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-width/6), Math.floor(tr.y+width*0.15)); 
-    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y+width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y+width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), tr.y); 
     this.piecebmd.ctx.lineTo(tl.x, tl.y); 
   }else if (this.top_side === 1) {
     //top side mountain
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), tr.y); 
-    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3), Math.floor(tr.y-width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-width/6), Math.floor(tr.y-width*0.15)); 
-    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y-width*0.1)); 
+    this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), Math.floor(tr.y-width*0.10)); 
     this.piecebmd.ctx.lineTo(Math.floor(tr.x-width/3-2*width/6), tr.y); 
     this.piecebmd.ctx.lineTo(tl.x, tl.y); 
   }
