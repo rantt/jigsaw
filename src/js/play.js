@@ -82,18 +82,32 @@ Game.Play.prototype = {
   },
   update: function() {
 
-		if (this.puzzle.won === true && this.game_won === false) {
-			this.puzzle.destroy();
-      console.log(level);
-      level = parseInt(level) + 1;
-			// level += 1;
-			if (level < 10) {
-        this.puzzle = new Puzzle(this.game, level.toString(), this.square);
-				this.puzzle.scatter();
-			}else {
-        this.game_won = true;
-        level = 1;
-      }
+		if (this.puzzle.won === true) {
+
+
+      this.game.input.onUp.add(this.nextLevel,this);
+      this.win_text = this.game.add.bitmapText(Game.w/2, Game.h/2, 'minecraftia', 'GREAT JOB!\nClick to Play Again.', 24);
+      this.win_text.anchor.setTo(0.5);
+
+
+
+			// this.puzzle.destroy();
+      // this.preview_button.destroy();
+      // console.log(level);
+      // level = parseInt(level) + 1;
+			// // level += 1;
+			// if (level < 10) {
+      //
+      //   this.puzzle = new Puzzle(this.game, level.toString(), this.square);
+			// 	this.puzzle.scatter();
+      //   this.preview_button = this.game.add.button(Game.w-200,0,this.makeBox(200,50), this.puzzle.preview_toggle,this.puzzle);
+      //   this.preview_button.tint = 0xff00ff;
+      //   this.game.add.bitmapText(Game.w-170,10,'minecraftia','Preview',24);
+      //
+			// }else {
+      //   this.game_won = true;
+      //   level = 1;
+      // }
 		}else {
       
       // this.game.state.start('Menu');
@@ -103,6 +117,9 @@ Game.Play.prototype = {
     // // Toggle Music
     // muteKey.onDown.add(this.toggleMute, this);
 
+  },
+  nextLevel: function() {
+    this.game.state.start('Gallery');
   },
   twitter: function() {
     //Popup twitter window to post highscore
