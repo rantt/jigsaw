@@ -51,6 +51,9 @@ Game.Load.prototype = {
     this.game.load.image('twitter','assets/images/twitter.png');
     this.game.load.image('cat', 'assets/images/cat.png');
 
+    console.log('custom'+this.game.net.getQueryString('custom'))
+    var custom_uri = this.game.net.getQueryString('custom');
+
     // Music Track
     // this.game.load.audio('music','soundtrack.mp3');
 

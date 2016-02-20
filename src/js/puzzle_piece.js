@@ -1,8 +1,6 @@
 var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
 
   this.game = game;
-  this.initialX = x;
-  this.initialY = y;
 
 
   this.left_side = sides.ls;
@@ -152,22 +150,16 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
 
   Phaser.Sprite.call(this, this.game, x-offsetX, y-offsetY, bmd);
 
-  this.events.onDragStart.add(onDragStart, this);
+  this.initialX = this.x;
+  this.initialY = this.y;
+
   this.inputEnabled = true;
   this.input.enableDrag(true);
-
-  function onDragStart(sprite, pointer) {
-    //lift piece above other pieces
-    this.game.world.bringToTop(sprite);
-  }
 
   this.game.add.existing(this);
 
 };
 
 PuzzlePiece.prototype = Object.create(Phaser.Sprite.prototype); 
-PuzzlePiece.prototype.drawPiece = function() {
-
-};
 PuzzlePiece.prototype.constructor = PuzzlePiece;
 

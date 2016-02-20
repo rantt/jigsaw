@@ -6,13 +6,15 @@ var Puzzle = function(game, pic, square) {
   this.game = game;
   this.pic = pic;
   this.square = square;
+	this.won = false;
 
     //load source image to get image height/width properties
-    var src_image = this.game.add.image(0, 0, pic);
-    src_image.visible = false;
+    this.src_image = this.game.add.image(Game.w/2, Game.h/2, pic);
+		this.src_image.anchor.setTo(0.5);
+    this.src_image.visible = false;
 
-    var w = src_image.width;
-    var h = src_image.height;
+    var w = this.src_image.width;
+    var h = this.src_image.height;
 
     this.offsetX = (Game.w - w)/2; 
     this.offsetY = (Game.h - h)/2; 
@@ -21,21 +23,19 @@ var Puzzle = function(game, pic, square) {
     this.tile_height = Math.floor(h/this.square);
 
     this.pieces = [];
-    this.background = [];
+		this.slots = [];
+    this.background = {};
 		this.piece_list = {};
 
     //Setup Background Game Board
     for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
-        // this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
 
-				var space = this.game.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
-				space.j = j;
-				space.i = i;
-				space.inputEnabled = true;
-				space.input.enableDrag(true);
-
-        this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
+				var slot = this.game.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
+				slot.j = j;
+				slot.i = i;
+				this.background[j+'_'+i] = slot;
+				this.slots.push(slot);
 			}
 		}
 
@@ -76,6 +76,9 @@ var Puzzle = function(game, pic, square) {
         if (j === 0) { sides.ls = 0; }
 
         var piece = new PuzzlePiece(this.game, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
+
+				piece.events.onDragStart.add(this.onDragStart, this);
+				piece.events.onDragStop.add(this.onDragStop, this);
 				
         this.pieces.push(piece);
         this.piece_list[j+'_'+i] = piece;
@@ -87,23 +90,76 @@ var Puzzle = function(game, pic, square) {
 Puzzle.prototype = Puzzle.prototype.constructor = Puzzle;
 
 Puzzle.prototype = {
+	onDragStart: function(sprite, pointer) {
+    this.game.world.bringToTop(sprite);
+	},
+	onDragStop: function(piece, pointer) {
+	
+		var slot = this.background[piece.j+'_'+piece.i];
+
+		if (Phaser.Rectangle.intersects(piece.getBounds(), slot.getBounds())) {
+			this.game.world.sendToBack(piece);
+			slot.visible = false;
+
+			piece.inputEnabled = false;
+			piece.input.enableDrag(false);
+			piece.x = piece.initialX;
+			piece.y = piece.initialY;
+			this.slots.forEach(function(slot) {
+				this.game.world.sendToBack(slot);
+			},this);
+
+			this.won = this.checkWin();
+		}
+
+	},
+	checkWin: function() {
+		var won = true;
+		for(var i=0; i< this.pieces.length;i++) {
+			if (this.pieces[i].x !== this.pieces[i].initialX && this.pieces[i].y !== this.pieces[i].initialY) {
+				won = false;
+				}
+		}
+		return won;
+	},
+	scatter: function() {
+		for (var s=0; s < this.pieces.length;s++) {
+			var piece = this.pieces[s];
+			piece.x = rand(this.tile_width/2, Game.w-this.tile_width/2);
+			piece.y = rand(this.tile_height/2, Game.h-this.tile_height/2);
+
+		}
+	},
+	destroy: function() {
+		this.slots.forEach(function(slot) {
+			slot.destroy();
+		},this);
+		this.pieces.forEach(function(piece) {
+			piece.destroy();
+		},this);
+	},
+	preview_toggle: function() {
+		if (this.src_image.visible === false) {
+			this.src_image.visible = true;
+			this.game.world.bringToTop(this.src_image);
+			this.pieces.forEach(function(piece) {
+				piece.visible = false;
+			},this);
+		}else {
+			this.src_image.visible = false;
+			this.pieces.forEach(function(piece) {
+				piece.visible = true;
+			},this);
+		}
+	},
   makeBox: function(x,y) {
       var bmd = this.game.add.bitmapData(x, y);
       bmd.ctx.beginPath();
       bmd.ctx.rect(0, 0, x, y);
-      bmd.ctx.fillStyle = '#dcdcdc';
+      bmd.ctx.fillStyle = '#202020';
 			bmd.ctx.lineStyle = 4;
       bmd.ctx.strokeStyle = '#ff00ff';
       bmd.ctx.fill();
       return bmd;
     },
-  // makeBox: function(x,y,width, height) {
-	// 	var box = this.game.add.graphics(width, height);
-	// 	//fill and linestyle
-	// 	box.beginFill(0xFFFFFF);
-	// 	box.lineStyle(2, 0xFF00FF, 1);
-	// 	box.drawRect(x-(width), y-(height), width, height);
-  //
-	// 	return box;
-  // }
 };

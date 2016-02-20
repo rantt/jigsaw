@@ -24,15 +24,20 @@ Game.Play = function(game) {
 };
 
 Game.Play.prototype = {
+	init: function() {
+		this.physics.startSystem(Phaser.Physics.ARCADE);		
+	},
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
 
-    this.game.stage.backgroundColor = '#202020';
+    this.game.stage.backgroundColor = '#213D5E';
 
-    this.puzzle = new Puzzle(this.game, 'cat', 6);  
+    this.puzzle = new Puzzle(this.game, 'cat', 3);  
+		this.puzzle.scatter();
 
-    //     var sides = {ls: 0, bs: 1, rs: 0, ts: 1};
-    // this.piece = new PuzzlePiece(this.game, Game.w/2, Game.h/2, 0, 0, 400, 400, 'cat', sides);
+		this.preview_button = this.game.add.button(Game.w-200,0,this.makeBox(200,50), this.puzzle.preview_toggle,this.puzzle);
+		this.preview_button.tint = 0xff00ff;
+		this.game.add.bitmapText(Game.w-170,10,'minecraftia','Preview',24);
 
 
     // // Music
