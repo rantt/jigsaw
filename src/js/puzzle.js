@@ -28,6 +28,13 @@ var Puzzle = function(game, pic, square) {
     for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
         // this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
+
+				var space = this.game.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
+				space.j = j;
+				space.i = i;
+				space.inputEnabled = true;
+				space.input.enableDrag(true);
+
         this.background.push(this.makeBox(this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height,this.tile_width, this.tile_height));
 			}
 		}
@@ -69,6 +76,7 @@ var Puzzle = function(game, pic, square) {
         if (j === 0) { sides.ls = 0; }
 
         var piece = new PuzzlePiece(this.game, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
+				
         this.pieces.push(piece);
         this.piece_list[j+'_'+i] = piece;
 
@@ -77,14 +85,25 @@ var Puzzle = function(game, pic, square) {
 };
 
 Puzzle.prototype = Puzzle.prototype.constructor = Puzzle;
-Puzzle.prototype = {
-  makeBox: function(x,y,width, height) {
-		var box = this.game.add.graphics(width, height);
-		//fill and linestyle
-		box.beginFill(0xFFFFFF);
-		box.lineStyle(2, 0xFF00FF, 1);
-		box.drawRect(x-(width), y-(height), width, height);
 
-		return box;
-  }
+Puzzle.prototype = {
+  makeBox: function(x,y) {
+      var bmd = this.game.add.bitmapData(x, y);
+      bmd.ctx.beginPath();
+      bmd.ctx.rect(0, 0, x, y);
+      bmd.ctx.fillStyle = '#dcdcdc';
+			bmd.ctx.lineStyle = 4;
+      bmd.ctx.strokeStyle = '#ff00ff';
+      bmd.ctx.fill();
+      return bmd;
+    },
+  // makeBox: function(x,y,width, height) {
+	// 	var box = this.game.add.graphics(width, height);
+	// 	//fill and linestyle
+	// 	box.beginFill(0xFFFFFF);
+	// 	box.lineStyle(2, 0xFF00FF, 1);
+	// 	box.drawRect(x-(width), y-(height), width, height);
+  //
+	// 	return box;
+  // }
 };

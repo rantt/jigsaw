@@ -29,7 +29,7 @@ Game.Play.prototype = {
 
     this.game.stage.backgroundColor = '#202020';
 
-    this.puzzle = new Puzzle(this.game, 'cat', 4);  
+    this.puzzle = new Puzzle(this.game, 'cat', 6);  
 
     //     var sides = {ls: 0, bs: 1, rs: 0, ts: 1};
     // this.piece = new PuzzlePiece(this.game, Game.w/2, Game.h/2, 0, 0, 400, 400, 'cat', sides);

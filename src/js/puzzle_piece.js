@@ -130,15 +130,18 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   var w = src_image.width;
   var h = src_image.height;
 
-  var offsetX = width*0.15;
-  var offsetY = height*0.15;
+  var offsetX = Math.floor(width*0.15);
+  var offsetY = Math.floor(height*0.15);
 
-  if (this.top_side === 1) { offsetY = 0; }
-  if (this.left_side === 1) { offsetX = 0; }
+  var padX = Math.floor(width*0.15);
+  var padY = Math.floor(height*0.15);
+
+  if (this.top_side === 1) { padY = 0; }
+  if (this.left_side === 1) { padX = 0; }
 
   var img = this.game.make.bitmapData(w, h);
-  area = new Phaser.Rectangle(j*width-(Math.abs(offsetX- width*0.15)), i*height-(Math.abs(offsetY - height*0.15)), w, h);
-  img.copyRect(pic, area, offsetX,offsetY);
+  area = new Phaser.Rectangle(j*width-(Math.abs(padX- width*0.15)), i*height-(Math.abs(padY - height*0.15)), w, h);
+  img.copyRect(pic, area, padX,padY);
   img.update();
   
   var mask = this.game.make.bitmapData(bmdwidth, bmdheight);
@@ -147,15 +150,18 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   var bmd = this.game.make.bitmapData(bmdwidth, bmdheight);
   bmd.alphaMask(img, this.piecebmd);
 
-    this.offsetX = (Game.w - width)/2; 
-    this.offsetY = (Game.h - height)/2; 
+  Phaser.Sprite.call(this, this.game, x-offsetX, y-offsetY, bmd);
 
+  this.events.onDragStart.add(onDragStart, this);
+  this.inputEnabled = true;
+  this.input.enableDrag(true);
 
-  var b = game.add.sprite(x+100, y+100, bmd); //100px temp offset
-  b.anchor.setTo(0.5);
+  function onDragStart(sprite, pointer) {
+    //lift piece above other pieces
+    this.game.world.bringToTop(sprite);
+  }
 
-  b.inputEnabled = true;
-  b.input.enableDrag(true);
+  this.game.add.existing(this);
 
 };
 
