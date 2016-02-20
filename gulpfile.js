@@ -15,9 +15,9 @@ var gulp = require('gulp'),
     rsync = require('gulp-rsync'),
     browserSync = require('browser-sync');
 
-// // Copy or Rename rsync-config.json.example to rsync-config.json
-// // and add your servers settings for rsync
-// var config = require('./rsync-config.json');
+// Copy or Rename rsync-config.json.example to rsync-config.json
+// and add your servers settings for rsync
+var config = require('./rsync-config.json');
 
 // Start Server from src directory 
 gulp.task('dev-server', function() {

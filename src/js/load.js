@@ -65,7 +65,7 @@ Game.Load.prototype = {
     // this.game.load.image('cat', 'assets/images/cat.png');
 
     for(var i = 1;i < 10;i++) {
-      this.game.load.image(i.toString(), 'assets/images/'+i.toString()+'.jpg');
+      this.game.load.image(i.toString(), 'assets/images/'+i.toString()+'.png');
     }
 
 
