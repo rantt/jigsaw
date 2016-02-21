@@ -1,5 +1,5 @@
 /*global Game*/
-var difficulty = 'normal';
+var difficulty;
 
 Game.Menu = function(game){
   this.game = game;
@@ -8,8 +8,14 @@ Game.Menu = function(game){
 Game.Menu.prototype =  {
     create: function() {
         
-        this.puzzle = new Puzzle(this.game, this.makeBox(800,800), 8);  
+        difficulty = 'normal';
+        this.puzzle = new Puzzle(this.game, this.makeBox(500,500), 5);  
         this.puzzle.scatter();
+
+        this.puzzle.pieces.forEach(function(piece) {
+          piece.inputEnabled = false;
+          piece.input.enableDrag(false);
+        });
 
         this.game.stage.backgroundColor = '#2d2d2d';
         this.titleText = this.game.add.bitmapText(Game.w/2, Game.h/2-100, 'minecraftia', "Jigsaw", 64 );

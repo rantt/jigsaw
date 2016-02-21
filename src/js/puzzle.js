@@ -16,6 +16,7 @@ var Puzzle = function(game, pic, square) {
     var w = this.src_image.width;
     var h = this.src_image.height;
 
+    //User to center piece
     this.offsetX = (Game.w - w)/2; 
     this.offsetY = (Game.h - h)/2; 
 
@@ -50,14 +51,14 @@ var Puzzle = function(game, pic, square) {
 
         var sides = {ls: 0, bs: 0, rs: 0, ts: 0};
 
-        //above
+        //above - choose piece to fit the above piece
         if (this.piece_list[j+'_'+(i-1)] !== undefined) {
           sides.ts = this.piece_list[j+'_'+(i-1)].bottom_side * -1;
         }else {
           sides.ts = choice[rand(0,1)]; 
         }
 
-        //left
+        //left - choose piece to fit the left piece
         if (this.piece_list[(j-1)+'_'+i] !== undefined) {
           sides.ls = this.piece_list[(j-1)+'_'+i].right_side * -1;
         }else {
@@ -98,9 +99,9 @@ Puzzle.prototype = {
 		var slot = this.background[piece.j+'_'+piece.i];
 
 		if (Phaser.Rectangle.intersects(piece.getBounds(), slot.getBounds())) {
+      //Disable and place piece
 			this.game.world.sendToBack(piece);
 			slot.visible = false;
-
 			piece.inputEnabled = false;
 			piece.input.enableDrag(false);
 			piece.x = piece.initialX;
@@ -125,7 +126,7 @@ Puzzle.prototype = {
 	scatter: function() {
 		for (var s=0; s < this.pieces.length;s++) {
 			var piece = this.pieces[s];
-			piece.x = rand(this.tile_width/2, Game.w-this.tile_width/2);
+			piece.x = rand(0, Game.w-this.tile_width/2);
 			piece.y = rand(this.tile_height/2, Game.h-this.tile_height/2);
 
 		}

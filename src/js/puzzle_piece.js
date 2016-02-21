@@ -16,12 +16,14 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
   var bmdwidth = Math.floor(width*1.30);
   var bmdheight = Math.floor(height*1.30);
 
+  //Set Corners for puzzle piece
   var tl = {x: Math.floor(width*0.15), y: Math.floor(height*0.15)}; 
   var tr = {x: (width+Math.floor(width*0.15)), y: (Math.floor(height*0.15))};
   var bl = {x: Math.floor(width*0.15), y: (height+Math.floor(height*0.15))};
   var br = {x: (width+Math.floor(width*0.15)), y: (height+Math.floor(height*0.15))};
 
-  
+ 
+  //Draw Puzzle Piece 
   this.piecebmd = this.game.add.bitmapData(bmdwidth,bmdheight);
   this.piecebmd.ctx.clearRect(0, 0, bmdwidth, bmdheight);
   this.piecebmd.ctx.strokeStyle = '#FFF';
@@ -120,7 +122,6 @@ var PuzzlePiece = function(game, x, y, j, i, width, height, pic, sides) {
     
   this.piecebmd.ctx.fill();
 
- 
   var src_image = this.game.add.image(Game.w/2, Game.h/2, pic);
   src_image.anchor.setTo(0.5);
   src_image.visible = false;

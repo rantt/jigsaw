@@ -42,27 +42,19 @@ Game.Load.prototype = {
     // this.game.add.plugin(Phaser.Plugin.Debug);
 
     //Loading Screen Message/bar
-    var loadingText = this.game.add.text(Game.w, Game.h, 'Loading...', { font: '30px Helvetica', fill: '#000' });
-  	loadingText.anchor.setTo(0.5, 0.5);
+    var loadingText = this.game.add.bitmapText(Game.w/2, Game.h/2, 'minecraftia', 'Loading...', 30).anchor.setTo(0.5);
+
   	var preloading = this.game.add.sprite(Game.w/2-64, Game.h/2+50, 'loading');
   	this.game.load.setPreloadSprite(preloading);
 
     //Load button for twitter
     this.game.load.image('twitter','assets/images/twitter.png');
-    // this.game.load.image('prehistory', 'assets/images/prehistory.png');
-    // this.game.load.image('skyscrapers', 'assets/images/skyscrapers.png');
-    // this.game.load.image('boxing', 'assets/images/boxing.png');
-    // this.game.load.image('cat', 'assets/images/cat.png');
 
     this.game.load.image('easy','assets/images/easy.png');
     this.game.load.image('normal','assets/images/normal.png');
     this.game.load.image('hard','assets/images/hard.png');
     this.game.load.atlasXML('startbtn', 'assets/images/startbtn.png','assets/atlas/startbtn.xml'); 
 
-    // this.game.load.image('apple', 'assets/images/apple.png');
-    // this.game.load.image('horse', 'assets/images/horse.png');
-    // this.game.load.image('flower', 'assets/images/flower.png');
-    // this.game.load.image('cat', 'assets/images/cat.png');
 
     for(var i = 1;i < 10;i++) {
       this.game.load.image(i.toString(), 'assets/images/'+i.toString()+'.png');
