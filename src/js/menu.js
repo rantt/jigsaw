@@ -43,18 +43,11 @@ Game.Menu.prototype =  {
         this.startButton = this.game.add.button(Game.w/2, Game.h/2+220,'startbtn', this.begin, this,1); 
         this.startButton.anchor.setTo(0.5);
 
+        //Create Twitter button as invisible, show during win condition to post highscore
+        this.twitterButton = this.game.add.button(this.game.world.centerX, Game.h-50,'twitter', this.twitter, this);
+        this.twitterButton.anchor.set(0.5);
+        this.twitterButton.visible = true;
 
-        // this.title = this.game.add.sprite(Game.w/2,Game.h/2-100,'title');
-        // this.title.anchor.setTo(0.5,0.5);
-        //
-        // this.instructions = this.game.add.sprite(Game.w/2+200,200,'instructions');
-        // this.instructions.scale.x = 0.5;
-        // this.instructions.scale.y = 0.5;
-        //
-        // // Start Message
-        //
-        // var clickText = this.game.add.bitmapText(Game.w/2, Game.h/2-50, 'minecraftia', '~click to start~', 24); 
-        //
     },
     begin: function() {
         // this.game.state.start('Play');
@@ -77,12 +70,12 @@ Game.Menu.prototype =  {
       bmd.ctx.fill();
       return bmd;
     },
+    twitter: function() {
+      //Popup twitter window to post highscore
+      var game_url = 'http://www.divideby5.com/games/jigsaw/'; 
+      var twitter_name = 'rantt_';
+      var tags = [''];
 
-
-    // update: function() {
-    //   //Click to Start
-    //   if (this.game.input.activePointer.isDown){
-    //     this.game.state.start('Play');
-    //   }
-    // }
+      window.open('http://twitter.com/share?text=Relax+with+a+fun+Jigsaw+puzzle.+at&via='+twitter_name+'&url='+game_url+'&hashtags='+tags.join(','), '_blank');
+    },
 };
