@@ -33,8 +33,6 @@ Game.Play.prototype = {
     this.game.stage.backgroundColor = '#213D5E';
     this.game_won = false;
 
-		// this.level = 1;
-
     if (difficulty === 'easy') {
       this.square = 3;
     }else if (difficulty === 'normal') {
@@ -61,8 +59,6 @@ Game.Play.prototype = {
     // this.music = this.game.add.sound('music');
     // this.music.volume = 0.5;
     // this.music.play('',0,1,true);
-
-
 
     //Create Twitter button as invisible, show during win condition to post highscore
     this.twitterButton = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200,'twitter', this.twitter, this);
@@ -94,13 +90,5 @@ Game.Play.prototype = {
   },
   nextLevel: function() {
     this.game.state.start('Gallery');
-  },
-  twitter: function() {
-    //Popup twitter window to post highscore
-    var game_url = 'http://www.divideby5.com/games/GAMETITLE/'; 
-    var twitter_name = 'rantt_';
-    var tags = ['1GAM'];
-
-    window.open('http://twitter.com/share?text=My+best+score+is+'+score+'+playing+GAME+TITLE+See+if+you+can+beat+it.+at&via='+twitter_name+'&url='+game_url+'&hashtags='+tags.join(','), '_blank');
   },
 };
